@@ -1,6 +1,5 @@
 (ns com.xadecimal.expose-api
-  (:require [com.xadecimal.expose-api.impl :as impl]
-            [clojure.string :as str]))
+  (:require [com.xadecimal.expose-api.impl :as impl]))
 
 (defn expose-api
   "Generate a public facing API namespace.
@@ -36,5 +35,4 @@
   (let [ns-str (impl/gen-str ns-code)
         vars (mapv #(vector % []) vars)
         top-level-forms (mapv #(impl/gen-top-level (first %) (second %)) vars)]
-    (spit file-path
-          (str/join \newline (into [ns-str] top-level-forms)))))
+    (impl/spit-generated-file file-path ns-str top-level-forms)))
