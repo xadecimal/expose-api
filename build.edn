@@ -1,5 +1,5 @@
 {:lib com.xadecimal/expose-api
- :version "0.1.0"
+ :version "0.2.0"
  :description "A Clojure library to automatically generate public API namespaces by wrapping and exposing functions and macros from implementation namespaces."
  :licenses [{:name "MIT License"
              :url "https://github.com/xadecimal/expose-api/blob/main/LICENSE"}]

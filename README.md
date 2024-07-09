@@ -15,7 +15,7 @@
 Add the following dependency to your `project.clj`:
 
 ```clojure
-[com.xadecimal/expose-api "0.1.0"]
+[com.xadecimal/expose-api "0.2.0"]
 ```
 
 ### Clojure CLI/deps.edn
@@ -23,7 +23,7 @@ Add the following dependency to your `project.clj`:
 Add the following dependency to your `deps.edn`:
 
 ```clojure
-{:deps {com.xadecimal/expose-api {:mvn/version "0.1.0"}}}
+{:deps {com.xadecimal/expose-api {:mvn/version "0.2.0"}}}
 ```
 
 ## Usage
