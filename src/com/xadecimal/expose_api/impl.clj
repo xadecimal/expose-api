@@ -65,8 +65,11 @@
 
 (defn gen-str
   [forms]
-  (with-out-str
-    (zp/zprint forms)))
+  (str/replace
+   (with-out-str
+     (zp/zprint forms {:style :backtranslate}))
+   #"\\r\\n|\\r|\\n"
+   "\n"))
 
 (defn gen-top-level
   [vr copy-meta]
