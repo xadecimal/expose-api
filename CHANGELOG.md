@@ -15,6 +15,12 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.3.0] - 2024-07-11
+
+### Added
+
+- expose-vars macro that lets you expose vars in the current namespace as a macro instead of through using source code generation. This serves as an alternative to code-gen for those who prefer that. [#3](https://github.com/xadecimal/expose-api/issues/3)
+
 ## [0.2.0] - 2024-07-08
 
 ### Added
@@ -37,6 +43,7 @@ Types of changes:
 - Support multi-arity.
 - Generated source file includes warning comment block to warn not to hand modify file.
 
-[unreleased]: https://github.com/xadecimal/expose-api/compare/0.2.0...HEAD
+[unreleased]: https://github.com/xadecimal/expose-api/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/xadecimal/expose-api/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/xadecimal/expose-api/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/xadecimal/expose-api/tree/0.1.0

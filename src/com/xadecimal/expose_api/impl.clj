@@ -73,11 +73,14 @@
 
 (defn gen-top-level
   [vr copy-meta]
-  (gen-str
-   (let [mta (meta vr)]
-     (if (:macro mta)
-       (gen-macro vr mta copy-meta)
-       (gen-defn vr mta copy-meta)))))
+  (let [mta (meta vr)]
+    (if (:macro mta)
+      (gen-macro vr mta copy-meta)
+      (gen-defn vr mta copy-meta))))
+
+(defn gen-top-level-str
+  [vr copy-meta]
+  (gen-str (gen-top-level vr copy-meta)))
 
 (defn spit-generated-file
   [file-path ns-str top-level-forms]

@@ -34,5 +34,37 @@
   [& {:keys [file-path ns-code vars]}]
   (let [ns-str (impl/gen-str ns-code)
         vars (mapv #(vector % []) vars)
-        top-level-forms (mapv #(impl/gen-top-level (first %) (second %)) vars)]
-    (impl/spit-generated-file file-path ns-str top-level-forms)))
+        top-level-forms-str (mapv #(impl/gen-top-level-str (first %) (second %)) vars)]
+    (impl/spit-generated-file file-path ns-str top-level-forms-str)))
+
+(defmacro expose-vars
+  "Use in an existing namespace, will defn or defmacro wrapper functions or
+   macros that have the same signature and doc-string as the ones from the
+   given vars, and which internally delegates to the vars fn/macro.
+
+   Unlike expose-api, this does not perform source code generation, but is
+   meant to be used as a macro. Making it more convenient, but it won't expose
+   things in a way that is friendly to human reader or static analysis tools.
+
+   Take a seqable of vars:
+
+   * vars - A seqable of vars which you want wrapped and exposed publicly in
+            the current namespace. Vars are assume to come from impl
+            namespaces.
+
+   Example:
+     (ns foo
+       (:require [com.xadecimal.expose-api :refer [expose-vars]]))
+
+     (expose-vars [#'impl/defn #'impl/cool])
+
+   This will define a macro called defn and a function called cool in the foo
+   namespace which have the same arity, signature and doc-string as impl/defn
+   and impl/cool. When called, they will internally delegate to impl/defn and
+   impl/cool."
+  [vars]
+  (let [vars (mapv #(vector (requiring-resolve (second %)) []) vars)
+        top-level-forms (->> vars
+                             (map #(impl/gen-top-level-str (first %) (second %)))
+                             (mapv read-string))]
+    `(do ~@top-level-forms)))
