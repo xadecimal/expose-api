@@ -54,6 +54,27 @@ This will create a file `./src/com/xadecimal/my_lib.clj` containing Clojure sour
 - `ns-code` - An `ns` code form, which will become the `ns` directive in the generated namespace source code. Ensure that you require the implementation namespaces that the vars use.
 - `vars` - A sequence of vars that you want to wrap and expose publicly in the generated namespace. Vars are assumed to come from implementation namespaces.
 
+## Usage as a macro
+
+In 0.3.0, expose-api also lets you expose your vars using a macro: `expose-vars`, which won't require any source code generation. It's more straightforward, but since the generation happens at compile time, tooling that read static sources won't work with it, such as clj-kondo and clojure-lsp. Cider will pick it up when connected to a REPL.
+
+### Example
+
+In the namespace you want as your public API:
+
+```clojure
+(ns com.xadecimal.my-lib
+"A very cool library which lets you do cool things.
+ To use it, require it and call its cool functions."
+  (:refer-clojure :exclude [defn])
+  (:require [com.xadecimal.expose-api :refer [expose-vars]]
+            [com.xadecimal.my-lib.impl :as impl]))
+
+(expose-vars [#'impl/defn #'impl/cool])
+```
+
+You don't need a build step when using `expose-vars`, since unlike `expose-api`, it doesn't generate source code, but will instead generate at macro-expansion time.
+
 ## Comparison with Potemkin's import-vars
 
 Potemkin's `import-vars` is another tool that facilitates the creation of public APIs by importing vars from other namespaces. Here's a comparison of `expose-api` and Potemkin's `import-vars`:
@@ -87,6 +108,16 @@ Potemkin's `import-vars` is another tool that facilitates the creation of public
   ```
 - **Pros**: Generates Clojure source code, leaving the runtime in a better state. Automates the tedious process of copying over arities and doc-strings.
 - **Cons**: Requires an additional step to generate the namespace file.
+
+### expose-vars
+
+- **Usage**: `expose-vars` is used directly in the namespace definition to expose vars from other namespaces, same as Potemkin's `import-vars`.
+- **Syntax**:
+  ```clojure
+  (api/expose-vars [#'impl/defn #'impl/cool])
+  ```
+- **Pros**: As simple and straightforward for exposing vars as Potemkin's `import-vars`, but without monkey-patching, thus it leaves the runtime in a clean state.
+- **Cons**: Not friendly to static analyzers like clj-kondo or clojure-lsp.
 
 ## Build Step Integration
 
