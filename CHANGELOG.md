@@ -15,6 +15,9 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+- Updated `README.md` to include info and usage examples for `expose-vars` macro.
+
 ## [0.3.0] - 2024-07-11
 
 ### Added
