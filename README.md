@@ -145,7 +145,8 @@ It is recommended to use `expose-api` from a build step. Here’s an example of 
 2. Add a build alias to your `deps.edn`
 
     ```clojure
-    :build {:extra-deps {io.github.clojure/tools.build {:git/tag "v0.10.4" :git/sha "31388ff"}}
+    :build {:extra-deps {io.github.clojure/tools.build {:git/tag "v0.10.4" :git/sha "31388ff"}
+                         com.xadecimal/expose-api {:mvn/version "0.3.0"}}
             :extra-paths ["."]
             :ns-default build}
     ```
